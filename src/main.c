@@ -4,8 +4,9 @@
  *
  * Este programa simula um gerenciador de memória utilizando diferentes estratégias de
  * alocação contígua: First Fit, Best Fit e Worst Fit. Ele inicializa a memória, executa
- * alocações e liberações de blocos para processos simulados, e imprime e salva o estado
- * atual da memória em um arquivo. Erros de alocação são registrados em log.
+ * alocações e liberações de blocos para processos simulados, realiza compactação da
+ * memória para evitar fragmentação externa, e imprime/salva o estado atual da memória.
+ * Erros de alocação são registrados em log.
  */
 
 #include <stdio.h>
@@ -20,13 +21,15 @@
  * - Inicializa toda a memória como livre.
  * - Executa alocações usando as estratégias First Fit, Best Fit e Worst Fit.
  * - Libera blocos previamente alocados.
+ * - Realiza compactação da memória após a liberação.
  * - Verifica o sucesso de cada alocação e registra falhas no log.
  * - Imprime o estado atual da memória no terminal.
  * - Salva o estado da memória em um arquivo de texto.
  *
  * Estratégias testadas:
  * - First Fit: processos 1, 2 e 3
- * - Best Fit: processo 4 (PID 1 reutilizado incorretamente, propositalmente para testar falha)
+ * - Best Fit: processo 4 (PID 1 reutilizado apenas para teste)
+ * - Compactação: após liberação de memória
  * - Worst Fit: processo 6
  *
  * @return int Retorna 0 ao final da execução com sucesso.
@@ -50,19 +53,22 @@ int main() {
     if (!first_fit(3, 5))
         log_erro(3, "First Fit", "memória insuficiente");
 
-    // Aloca 10 blocos para o processo 4 usando Best Fit
-    // (reutilizando PID 1 apenas para efeito de teste — idealmente, use PID 4)
+    // Tenta alocar 10 blocos para o processo 4 usando Best Fit
+    // (Reutiliza PID 1 apenas para forçar teste de falha)
     if (!best_fit(1, 10))
         log_erro(4, "Best Fit", "nenhum bloco adequado encontrado");
 
-    // Aloca 8 blocos para o processo 6 usando Worst Fit
+    // Compacta a memória após liberações para reduzir fragmentação externa
+    compactar_memoria();
+
+    // Tenta alocar 8 blocos para o processo 6 usando Worst Fit
     if (!worst_fit(6, 8))
         log_erro(6, "Worst Fit", "nenhum bloco suficientemente grande encontrado");
 
-    // Exibe a memória no terminal
+    // Exibe o estado atual da memória no terminal
     imprimir_memoria();
 
-    // Salva o estado da memória em arquivo
+    // Salva o estado da memória em arquivo para futura análise
     salvar_memoria("estado.txt");
 
     return 0;

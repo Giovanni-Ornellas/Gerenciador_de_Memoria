@@ -49,4 +49,18 @@ void imprimir_memoria();
  */
 void salvar_memoria(const char *arquivo);
 
+/**
+ * @brief Compacta a memória movendo todos os blocos ocupados para o início.
+ *
+ * Esta função reorganiza a memória simulada de forma que todos os blocos usados
+ * por processos sejam deslocados para o início do vetor de memória, enquanto os 
+ * blocos livres (representados por 0) são deslocados para o final.
+ *
+ * Seu principal objetivo é reduzir a fragmentação externa, criando um bloco 
+ * contíguo maior de memória livre para facilitar futuras alocações.
+ *
+ * @note Esta operação não preserva a posição original dos processos na memória.
+ */
+void compactar_memoria();
+
 #endif // MEMORIA_H

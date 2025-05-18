@@ -62,3 +62,31 @@ void salvar_memoria(const char *arquivo) {
         fprintf(f, "%d ", memoria[i]);
     fclose(f);
 }
+
+/**
+ * @brief Compacta a memória, movendo todos os processos para o início.
+ *
+ * Blocos livres (0) são empurrados para o final do vetor.
+ * Após a operação, todos os blocos ocupados ficam agrupados no início.
+ */
+void compactar_memoria() {
+    int nova_memoria[TAM_MEMORIA];
+    int k = 0;
+
+    // Copia apenas blocos ocupados para o início do novo vetor
+    for (int i = 0; i < TAM_MEMORIA; i++) {
+        if (memoria[i] != 0) {
+            nova_memoria[k++] = memoria[i];
+        }
+    }
+
+    // Preenche o restante com 0 (livre)
+    while (k < TAM_MEMORIA) {
+        nova_memoria[k++] = 0;
+    }
+
+    // Atualiza a memória original
+    for (int i = 0; i < TAM_MEMORIA; i++) {
+        memoria[i] = nova_memoria[i];
+    }
+}
