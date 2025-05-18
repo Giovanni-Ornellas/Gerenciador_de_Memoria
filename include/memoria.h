@@ -63,4 +63,40 @@ void salvar_memoria(const char *arquivo);
  */
 void compactar_memoria();
 
+/**
+ * @brief Analisa e exibe informações sobre fragmentação externa da memória.
+ *
+ * A função percorre a memória simulada e identifica:
+ * - O número total de blocos livres.
+ * - O número de regiões contíguas de memória livre.
+ * - O tamanho da menor e da maior região livre.
+ * - Se há ou não fragmentação externa (mais de uma região livre).
+ *
+ * A fragmentação externa ocorre quando há memória livre suficiente
+ * no total, mas espalhada em pequenos blocos não contíguos, 
+ * impedindo a alocação de processos maiores.
+ *
+ * @note A saída é impressa diretamente no terminal.
+ */
+void exibir_fragmentacao();
+
+/**
+ * @brief Carrega o estado da memória a partir de um arquivo.
+ * @param arquivo Caminho do arquivo contendo os blocos da memória.
+ */
+void carregar_memoria(const char *arquivo);
+
+/**
+ * @brief Verifica se um processo com o PID fornecido já está presente na memória.
+ *
+ * Percorre todos os blocos da memória simulada e verifica se algum deles está
+ * ocupado pelo processo com o identificador especificado. Essa função é útil
+ * para evitar múltiplas alocações do mesmo processo sem liberação prévia.
+ *
+ * @param pid Identificador do processo a ser verificado.
+ * @return int Retorna 1 se o PID já está alocado, ou 0 caso contrário.
+ */
+int pid_existe(int pid);
+
+
 #endif // MEMORIA_H

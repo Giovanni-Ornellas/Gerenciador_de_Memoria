@@ -1,22 +1,24 @@
-# Caminho do executável
-BIN=build/main
+# Caminhos
+BIN_PROCESSADOR=build/processador
+INTERFACE_GUI=interface/interface_GUI.py
 
-# Fontes e headers
-SRC=src/main.c src/memoria.c src/alocacao.c src/log.c
+# Fontes do processador
+SRC_PROCESSADOR=src/processador.c src/memoria.c src/alocacao.c
 INCLUDES=-Iinclude
 
-# Regra principal
-all: $(BIN)
+# Regra padrão: compila e executa a interface gráfica
+all: $(BIN_PROCESSADOR)
+	python3 $(INTERFACE_GUI)
 
-# Compilação
-$(BIN): $(SRC)
+# Compilação do processador
+$(BIN_PROCESSADOR): $(SRC_PROCESSADOR)
 	mkdir -p build
-	gcc $(SRC) -o $(BIN) $(INCLUDES)
+	gcc $(SRC_PROCESSADOR) -o $(BIN_PROCESSADOR) $(INCLUDES)
 
-# Executa o simulador
-run: $(BIN)
-	./$(BIN)
+# Executa apenas o processador (opcional)
+run-processador: $(BIN_PROCESSADOR)
+	./$(BIN_PROCESSADOR)
 
 # Limpa arquivos gerados
 clean:
-	rm -rf build log.txt estado.txt
+	rm -rf build log.txt estado.txt comando.txt
