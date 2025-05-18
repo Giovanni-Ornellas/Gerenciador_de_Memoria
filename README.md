@@ -1,4 +1,4 @@
-# Simulador de Gerenciador de Memória
+# Simulador de Gerenciador de Memória - Alocação Contígua
 
 ## 📍 Descrição do Projeto
 
