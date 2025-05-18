@@ -2,9 +2,10 @@
  * @file main.c
  * @brief Ponto de entrada principal para o simulador de Gerenciador de Memória.
  *
- * Este programa simula um gerenciador de memória com políticas de alocação First Fit e Best Fit.
- * Ele inicializa a memória, aloca blocos para processos simulados, libera memória
- * e imprime/salva o estado atual da memória.
+ * Este programa simula um gerenciador de memória utilizando diferentes estratégias de
+ * alocação contígua: First Fit, Best Fit e Worst Fit. Ele inicializa a memória, executa
+ * alocações e liberações de blocos para processos simulados, e imprime e salva o estado
+ * atual da memória em um arquivo. Erros de alocação são registrados em log.
  */
 
 #include <stdio.h>
@@ -12,15 +13,21 @@
 #include "alocacao.h"
 #include "log.h"
 
-
 /**
  * @brief Função principal do simulador de memória.
  *
- * Executa uma sequência de alocações e liberações com diferentes algoritmos de alocação:
- * - First Fit: para os processos 1, 2 e 3
- * - Best Fit: para o processo 4
- * Em caso de falha de alocação, registra o erro no log.
- * Após as operações, imprime e salva o estado da memória.
+ * Este programa realiza as seguintes ações:
+ * - Inicializa toda a memória como livre.
+ * - Executa alocações usando as estratégias First Fit, Best Fit e Worst Fit.
+ * - Libera blocos previamente alocados.
+ * - Verifica o sucesso de cada alocação e registra falhas no log.
+ * - Imprime o estado atual da memória no terminal.
+ * - Salva o estado da memória em um arquivo de texto.
+ *
+ * Estratégias testadas:
+ * - First Fit: processos 1, 2 e 3
+ * - Best Fit: processo 4 (PID 1 reutilizado incorretamente, propositalmente para testar falha)
+ * - Worst Fit: processo 6
  *
  * @return int Retorna 0 ao final da execução com sucesso.
  */
@@ -43,12 +50,14 @@ int main() {
     if (!first_fit(3, 5))
         log_erro(3, "First Fit", "memória insuficiente");
 
-    // Aloca 7 blocos para o processo 4 usando Best Fit
+    // Aloca 10 blocos para o processo 4 usando Best Fit
+    // (reutilizando PID 1 apenas para efeito de teste — idealmente, use PID 4)
     if (!best_fit(1, 10))
         log_erro(4, "Best Fit", "nenhum bloco adequado encontrado");
 
+    // Aloca 8 blocos para o processo 6 usando Worst Fit
     if (!worst_fit(6, 8))
-    log_erro(6, "Worst Fit", "nenhum bloco suficientemente grande encontrado");
+        log_erro(6, "Worst Fit", "nenhum bloco suficientemente grande encontrado");
 
     // Exibe a memória no terminal
     imprimir_memoria();
