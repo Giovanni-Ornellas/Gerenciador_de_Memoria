@@ -1,4 +1,5 @@
 ## Simulador de Gerenciamento de Memória – Alocação Contígua
+![image](https://github.com/user-attachments/assets/4d14da77-e99d-4bbb-8555-6f6cb9c9da9c)
 
 Este projeto é um **simulador educacional de gerenciamento de memória**, com foco em **alocação contígua sequencial**. Ele permite visualizar de forma interativa como blocos de memória são alocados e liberados por diferentes algoritmos, e como isso afeta a **fragmentação externa** do sistema.
 
